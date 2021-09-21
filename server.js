@@ -18,27 +18,10 @@ class Waether {
 
 }
 
-
-// localhost:3002/weather?withercity=
-// server.get('/weather', (req, res) =>
-// {
-  
-//     let withercity = weatherData.find(item =>
-//     {if (item.city_name.toLocaleLowerCase()=== req.query.city)
-//     {return item;
-//     }
-//     });
-//     let newArray = withercity.data.map(element => {
-//       return new Waether(element.valid_date, element.weather.description); });
-//     res.status(200).send(newArray);
-
-// });
-
-// localhost:3005/weather?city=
+// localhost:3005/weather?namecity=
 server.get('/weather',(req,res)=>{
-    // res.send(pokeData);
-
-    let weathercity = req.query.city;
+        
+    let weathercity = req.query.namecity;
 
     let Infocity = weatherData.find((item)=>{
         if(item.city_name.toLocaleLowerCase() === weathercity) {
@@ -47,10 +30,12 @@ server.get('/weather',(req,res)=>{
         
     });
     let newArray = Infocity.data.map(element => {
-              return new Waether(element.valid_date, element.weather.description); });
+              return new Waether(element.valid_date, element.weather.description);
+            
+    });
             res.status(200).send(newArray);
 
-})
+});
 
 //////
 // localhost:3005/ANYTHING
