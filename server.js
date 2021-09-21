@@ -9,6 +9,9 @@ const weatherData = require('./data/weather.json');
 
 const PORT = process.env.PORT;
 server.use(cors());
+server.get('/test',(req,res)=>{ 
+    res.send(  'api is working')
+})
 
 class Waether {
     constructor(date,description){
@@ -19,18 +22,19 @@ class Waether {
 }
 
 // localhost:3005/weather?namecity=
+//https://city-weather33.herokuapp.com/namecity=
 server.get('/weather',(req,res)=>{
-        
+
     let weathercity = req.query.namecity;
 
     let Infocity = weatherData.find((item)=>{
-        if(item.city_name.toLocaleLowerCase() === weathercity) {
+        if(item.city_name === weathercity) {
             return item
         }
         
     });
     let newArray = Infocity.data.map(element => {
-              return new Waether(element.valid_date, element.weather.description);
+              return new Waether(element.datetime, element.weather.description);
             
     });
             res.status(200).send(newArray);
