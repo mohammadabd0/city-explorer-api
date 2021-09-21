@@ -22,9 +22,9 @@ class Waether {
 }
 
 // localhost:3005/weather?namecity=
-//https://city-weather33.herokuapp.com/namecity=
+//https://city-weather33.herokuapp.com/?namecity=
 server.get('/weather',(req,res)=>{
-
+    try{
     let weathercity = req.query.namecity;
 
     let Infocity = weatherData.find((item)=>{
@@ -38,10 +38,11 @@ server.get('/weather',(req,res)=>{
             
     });
             res.status(200).send(newArray);
-
+        } catch (err) {
+            res.status(404).send("error : Something went wrong.");
+          }
 });
 
-//////
 // localhost:3005/ANYTHING
 server.get('*',(req,res)=>{
     res.status(404).send('route is not found')
