@@ -2,55 +2,72 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const axios = require('axios');
 
 const server = express();
 
-const weatherData = require('./data/weather.json');
+// const weatherData = require('./data/weather.json'); //forlab07 
 
 const PORT = process.env.PORT;
 server.use(cors());
-server.get('/test',(req,res)=>{ 
-    res.send(  'api is working')
-})
+
+// Routes
+server.get('/test', testRouteHandler);
+server.get('/weather', getweatherHandler);
+server.get('*', notFoundHandler);
+
 
 class Waether {
-    constructor(date,description){
-        this.date = date;
-        this.description =description;
+    constructor(element){
+        this.date = element.datetime; 
+        this.description =element.weather.description;
     }
 
 }
 
-// localhost:3005/weather?namecity=
-//https://city-weather33.herokuapp.com/?namecity=
-server.get('/weather',(req,res)=>{
-    try{
-    let weathercity = req.query.namecity;
+// Function Handlers
 
-    let Infocity = weatherData.find((item)=>{
-        if(item.city_name === weathercity) {
-            return item
-        }
-        
-    });
-    let newArray = Infocity.data.map(element => {
-              return new Waether(element.datetime, element.weather.description);
-            
-    });
-            res.status(200).send(newArray);
-        } catch (err) {
-            res.status(404).send("error : Something went wrong.");
-          }
-});
+ function getweatherHandler(req, res) {
+
+    let weathercity = req.query.city; // flower
+    console.log(req.query)
+    // http://api.weatherbit.io/v2.0/forecast/daily?city=${weathercity}&client_id=
+    //http://localhost:3005/weather?city=Amman
+    let URL = `https://api.weatherbit.io/v2.0/forecast/daily?city=${weathercity}&client_id=${process.env.WEATHER_KEY}`
+    console.log(URL);
+    axios.get(URL).then(weatherResults => {
+     let newArray = weatherResults.data.map(element => {
+            return new Waether(element)
+         })
+            res.send(newArray)
+        }).catch(error =>{
+            res.send(error)
+        })
+
+}
+
+
+
+
 
 // localhost:3005/ANYTHING
-server.get('*',(req,res)=>{
-    res.status(404).send('route is not found')
-})
+function notFoundHandler(req, res) {
+    res.status(404).send('NOT FOUND!!')
+}
+
+//for test
+function testRouteHandler(req,res){ 
+    res.send(  'api is working')
+}
+
 
 server.listen(PORT,()=>{
     console.log(`Listening on PORT ${PORT}`)
 })
+
+
+
+
 
 
 
