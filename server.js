@@ -14,9 +14,11 @@ server.use(cors());
 // Routes
 server.get('/test', testRouteHandler);
 server.get('/weather', getweatherHandler);
+server.get('/movies', getmoviesHandler);
 server.get('*', notFoundHandler);
 
 
+//calasses
 class Waether {
     constructor(element){
         this.date = element.datetime; 
@@ -25,11 +27,13 @@ class Waether {
 
 }
 
+
+
 // Function Handlers
 
  function getweatherHandler(req, res) {
 
-    let weathercity = req.query.city; // flower
+    let weathercity = req.query.city;
     // http://api.weatherbit.io/v2.0/forecast/daily?city=${weathercity}&key=
     //http://localhost:3005/weather?city=Amman
     let URL = `https://api.weatherbit.io/v2.0/forecast/daily?city=${weathercity}&key=${process.env.WEATHER_KEY}`
@@ -45,13 +49,15 @@ class Waether {
 
 }
 
+function getmoviesHandler(req, res) {
 
+}
 
 
 
 // localhost:3005/ANYTHING
 function notFoundHandler(req, res) {
-    res.status(404).send('NOT FOUND!!')
+    res.status(404).send('NOT FOUND!')
 }
 
 //for test
