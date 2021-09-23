@@ -43,7 +43,7 @@ server.get('/weather',(req,res)=>{
           }
 });
 
-// localhost:3005/ANYTHING
+// localhost:3005/ANYTHINGgg
 server.get('*',(req,res)=>{
     res.status(404).send('route is not found')
 })
