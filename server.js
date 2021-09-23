@@ -82,6 +82,7 @@ axios.get(URL).then(movieResults => {
 
 
 
+
 // localhost:3005/ANYTHING
 function notFoundHandler(req, res) {
     res.status(404).send('NOT FOUND!')
@@ -91,6 +92,12 @@ function notFoundHandler(req, res) {
 function testRouteHandler(req,res){ 
     res.send(  'api is working')
 }
+
+
+// localhost:3005/ANYTHINGgg
+server.get('*',(req,res)=>{
+    res.status(404).send('route is not found')
+})
 
 
 server.listen(PORT,()=>{
