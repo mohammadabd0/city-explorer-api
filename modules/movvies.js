@@ -1,18 +1,22 @@
 const axios = require('axios');
 let cacheMemory = {};
 
-
 function getmoviesHandler(req, res) {
     let moviesname = req.query.city
     //http://localhost:3005/movies?city=Amman
     //https://api.themoviedb.org/3/search/movie?api_key=
     let URL = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${moviesname}`
-    if (cacheMemory[weathercity] !== undefined) {
-        res.send(cacheMemory[weathercity]);
+        console.log('movie'+URL);
+
+    if (cacheMemory[moviesname] !== undefined) {
+        res.send(cacheMemory[moviesname]);
     }else {
     try {
     axios.get(URL).then(movieResults => {
+        console.log('movie'+movieResults);
         let  newArray = movieResults.data.results.map(element => {
+            console.log('movie'+movieResults.data.results);
+
             return new AllMovie(element)
     })
         res.send(newArray)
@@ -22,8 +26,6 @@ function getmoviesHandler(req, res) {
         }
     }  
 }
-
-
 class AllMovie{
     constructor(element){
         this.title = element.title;

@@ -28,10 +28,12 @@ function testRouteHandler(req,res){
 }
 
 
+
 // localhost:3005/ANYTHINGgg
 server.get('*',(req,res)=>{
     res.status(404).send('route is not found')
 })
+
 
 
 server.listen(PORT,()=>{
