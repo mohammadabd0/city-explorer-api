@@ -28,7 +28,6 @@ function testRouteHandler(req,res){
     res.send(  'api is working')
 }
 
-
 server.listen(PORT,()=>{
     console.log(`Listening on PORT ${PORT}`)
 })
